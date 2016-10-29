@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>click&install</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="../static/css/bootstrap-multiselect.css" type="text/css"/>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="navbar navbar-default" style="right">
+                <div class="col-md-4">
+                    <h5 class="text-primary">CLICK:{{click}} &nbsp INSTALL:{{install}} &nbsp CONVERSION:{{conversion}}</h5>
+                </div>
+                <div class="col-md-8">
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <form class="navbar-form navbar-right form-horizontal" role="search" method="POST" action="/">
+                            <input type="text" title="时间选择" size="8" data-provide="datepicker" class="datepicker" data-date-format="yyyy-mm-dd" name="time">
+                            <select id="aff" multiple="multiple" name="aff">
+                                {% for aff in affs %}
+                                    <option value="{{aff['aff']}}">{{ aff['aff'] }}</option>
+                                {% end %}
+                            </select>
+                            <select id="offer_id" multiple="multiple" name="offer_id">
+                                {% for offer in offers %}
+                                    <option value="{{offer['offer_id']}}">{{ offer['offer_id'] }}</option>
+                                {% end %}
+                            </select>
+                            <select id="countrys" multiple="multiple" name="country">
+                                {% for country in countrys %}
+                                    <option value="{{country['country_code']}}">{{ country['country_code'] }}</option>
+                                {% end %}
+                            </select>
+
+                            <button type="submit" class="btn btn-default">submit</button>
+                        </form>
+                    </div>
+                </div>
+            </nav>
+
+            <table id="table" class="table table-bordered" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>date</th>
+                        <th>afficate</th>
+                        <th>offer id</th>
+                        <th>country</th>
+                        <th>click</th>
+                        <th>install</th>
+                        <th>conversion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in records%}
+                    <tr>
+                        <th>{{record["create_time"]}}</th>
+                        <td>{{record["aff"]}}</td>
+                        <td>{{record["offer_id"]}}</td>
+                        <td>{{record["country_code"]}}</td>
+                        <td>{{record["click"]}}</td>
+                        <td>{{record["install"]}}</td>
+                        <td>{{float(record["install"])/float(record["click"])}}</td>
+                    </tr>
+                    {% end %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="../static/js/jquery-1.12.0.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript" src="../static/js/bootstrap-multiselect.js"></script>
+    <script type="text/javascript" src="../static/js/multiselect.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('#aff').multiselect({
+            nonSelectedText: 'affiliates',
+            enableFiltering: true,
+            buttonWidth: '150px',
+            includeSelectAllOption: true,
+            numberDisplayed: 1,
+            maxHeight: 200
+        });
+        $('#offer_id').multiselect({
+            nonSelectedText: 'offer',
+            enableFiltering: true,
+            buttonWidth: '150px',
+            includeSelectAllOption: true,
+            numberDisplayed: 1,
+            maxHeight: 200
+        });
+        $('#countrys').multiselect({
+            nonSelectedText: 'country',
+            enableFiltering: true,
+            buttonWidth: '150px',
+            includeSelectAllOption: true,
+            numberDisplayed: 1,
+            maxHeight: 200
+        });
+    });
+    </script>
+</body>
+</html>
